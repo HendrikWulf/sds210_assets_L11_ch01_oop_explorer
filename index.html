@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP Concept Explorer</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --blueprint-bg: #1e293b;
+            --blueprint-text: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #10b981;
+            --secondary-hover: #059669;
+            --border-color: #e2e8f0;
+            --text-main: #334155;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Blueprint Panel */
+        .blueprint-panel {
+            background-color: var(--blueprint-bg);
+            color: var(--blueprint-text);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .blueprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+        }
+
+        .blueprint-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .code-snippet {
+            background-color: #0f172a;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #38bdf8;
+            line-height: 1.5;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-instantiate {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+
+        .btn-instantiate:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Instances Area */
+        .instances-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: -8px;
+        }
+
+        .instances-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Object Card */
+        .object-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-header {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .input-group input {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .state-display {
+            background-color: #f1f5f9;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .btn-method {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px;
+            font-size: 0.95rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-method:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. The Class Blueprint -->
+    <div class="blueprint-panel">
+        <div class="blueprint-header">
+            <div class="blueprint-title">
+                <span>📘 Class Blueprint: </span>
+                <span style="color: #38bdf8;">WeatherStation</span>
+            </div>
+            <button class="btn-instantiate" onclick="instantiateStation()">+ Instantiate Object</button>
+        </div>
+        <div class="code-snippet">
+            class WeatherStation:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, name, elev, temp):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.name = name<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.elevation = elev<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.temp = temp<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;def calibrate_temp(self):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.temp = self.temp - (self.elevation * 0.006)
+        </div>
+    </div>
+
+    <!-- 2. The Instantiated Objects -->
+    <div class="instances-header">📦 Instantiated Objects (Memory)</div>
+    <div class="instances-container" id="instances-container">
+        <div class="empty-state" id="empty-state">
+            No objects instantiated yet. Click the button above to create a new WeatherStation in memory.
+        </div>
+    </div>
+
+    <script>
+        let stationCount = 0;
+
+        // We use an actual JS Class to demonstrate the OOP concept!
+        class WeatherStation {
+            constructor(id) {
+                this.id = id;
+                this.name = `Station ${id}`;
+                this.elevation = 400; // Default elevation
+                this.temp = 15.0;     // Default temperature
+                
+                // Create the DOM representation of this object
+                this.cardElement = this.createCardDOM();
+            }
+
+            // The method that encapsulates the logic
+            calibrate_temp() {
+                // Read current inputs to update internal state before calibrating
+                const elevInput = this.cardElement.querySelector('.elev-input').value;
+                const tempInput = this.cardElement.querySelector('.temp-input').value;
+                
+                this.elevation = parseFloat(elevInput) || 0;
+                this.temp = parseFloat(tempInput) || 0;
+
+                // Execute the logic
+                this.temp = this.temp - (this.elevation * 0.006);
+                
+                // Update the visual state
+                this.updateDisplay();
+            }
+
+            createCardDOM() {
+                const card = document.createElement('div');
+                card.className = 'object-card';
+                
+                card.innerHTML = `
+                    <div class="card-header">📍 ${this.name}</div>
+                    
+                    <div class="input-group">
+                        <label>State: Elevation (m)</label>
+                        <input type="number" class="elev-input" value="${this.elevation}" step="10">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>State: Raw Temperature (°C)</label>
+                        <input type="number" class="temp-input" value="${this.temp}" step="0.1">
+                    </div>
+
+                    <button class="btn-method">⚡ Execute .calibrate_temp()</button>
+
+                    <div class="input-group">
+                        <label>Current Calibrated Temperature:</label>
+                        <div class="state-display temp-display">${this.temp.toFixed(2)} °C</div>
+                    </div>
+                `;
+
+                // Bind the method to the button
+                const btn = card.querySelector('.btn-method');
+                btn.addEventListener('click', () => this.calibrate_temp());
+
+                return card;
+            }
+
+            updateDisplay() {
+                const display = this.cardElement.querySelector('.temp-display');
+                const tempInput = this.cardElement.querySelector('.temp-input');
+                
+                // Update the read-only display
+                display.textContent = `${this.temp.toFixed(2)} °C`;
+                // Update the input to match the new state so it can be re-calibrated if needed
+                tempInput.value = this.temp.toFixed(2);
+                
+                // Add a brief flash effect to show state changed
+                display.style.backgroundColor = '#d1fae5';
+                display.style.borderColor = '#10b981';
+                setTimeout(() => {
+                    display.style.backgroundColor = '#f1f5f9';
+                    display.style.borderColor = '#cbd5e1';
+                }, 400);
+            }
+        }
+
+        // Controller logic
+        function instantiateStation() {
+            const container = document.getElementById('instances-container');
+            const emptyState = document.getElementById('empty-state');
+            
+            if (emptyState) {
+                emptyState.style.display = 'none';
+            }
+
+            stationCount++;
+            
+            // Instantiate the new object
+            const newStation = new WeatherStation(stationCount);
+            
+            // Append its visual representation to the DOM
+            container.appendChild(newStation.cardElement);
+        }
+    </script>
+</body>
+</html>
